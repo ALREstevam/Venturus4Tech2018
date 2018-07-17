@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+    crossorigin="anonymous">
+
+
+
+  <title>VJobs</title>
+</head>
+
+<body>
+
+
+  <!--NAVBAR-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+
+    <a class="navbar-brand" href="#">
+      <img src="images/logo-h-vjobs.png" width="90" class="d-inline-block align-middle" alt="logotipo vJobs">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link text-light" href="#">Vagas <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Sobre</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- COLLAPSE -->
+  <p>
+    <button class="btn btn-primary mt-4 mb-4 ml-5" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+      aria-controls="collapseExample">
+    Nova vaga
+  </button>
+  </p>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <div class="collapse justify-content-center" id="collapseExample">
+          <div class="card card-body">
+            <!-- FORM -->
+
+            <form>
+              <div class="container justify-content-center">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="inputName">Nome</label>
+                      <input type="text" class="form-control" id="inputName" placeholder="Ana Maria">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputDescription">Descrição</label>
+                      <textarea class="form-control" id="inputDescription" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+
+                    <div class="form-group">
+                      <label for="inputDescription">Descrição</label>
+                      <textarea class="form-control" id="inputDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="inputSalary">Salário base</label>
+                      <input type="numer" class="form-control" id="inputSalary" placeholder="10,00" min="0" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="inputJobForPcd">
+                        <label class="form-check-label" for="inputJobForPcd">
+                          Vaga para PCD
+                        </label>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+
+                    <div class="form-group">
+                      <label for="inputDifferential">Diferenciais</label>
+                      <textarea class="form-control" id="inputDifferential" rows="3"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="inputDifferential">Diferenciais</label>
+                      <select class="custom-select">
+                      <option selected value="1">Desenvolvimento</option>
+                      <option value="2">Manager</option>
+                      <option value="3">Tester</option>
+                      <option value="4">Scrum Master</option>
+                      <option value="5">Analista de Requisitos</option>
+                      <option value="6">Arquitetura</option>
+                      <option value="7">Infraestrutura</option>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-success float-right">Criar vaga</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+        <!--CARD-->
+        <div class="card">
+          <img class="card-img-top" src="images/developer.png" alt="">
+          <div class="card-body">
+            <h5 class="card-title">Desenvolvedor Front-end JR</h2>
+              <h5 class="card-title font-weight-bold small">Descrição</h3>
+                <p>Profissional que goste de trabalhar em um ambiente dinâmico com desenvolvimento de software e que tenha experiência
+                  em desenvolvimento full stack.</p>
+                <h5 class="card-title font-weight-bold small">Salário base</h3>
+                  <p>R$ 10,00</p>
+
+                  <button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <!--CARD-->
+        <div class="card">
+          <img class="card-img-top" src="images/designer.png" alt="">
+          <div class="card-body">
+            <h5 class="card-title">Designer UI/UX PL</h2>
+              <h5 class="card-title font-weight-bold small">Descrição</h3>
+                <p>Profissional que goste de trabalhar em um ambiente dinâmico com desenvolvimento de software e que tenha experiência
+                  em desenvolvimento full stack.</p>
+                <h5 class="card-title font-weight-bold small">Salário base</h3>
+                  <p>R$ 100,00</p>
+
+                  <button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <!--CARD-->
+        <div class="card">
+          <img class="card-img-top" src="images/tester.png" alt="">
+          <div class="card-body">
+            <h5 class="card-title">Tester - Estágio</h2>
+              <h5 class="card-title font-weight-bold small">Descrição</h3>
+                <p>Profissional que goste de trabalhar em um ambiente dinâmico com desenvolvimento de software e que tenha experiência
+                  em desenvolvimento full stack.</p>
+                <h5 class="card-title font-weight-bold small">Salário base</h3>
+                  <p>R$ 2,00</p>
+
+                  <button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
