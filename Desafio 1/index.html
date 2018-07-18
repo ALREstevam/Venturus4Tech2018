@@ -110,13 +110,13 @@
                     <div class="form-group">
                       <label for="inputDifferential">Diferenciais</label>
                       <select class="custom-select">
-                      <option selected value="1">Desenvolvimento</option>
-                      <option value="2">Manager</option>
-                      <option value="3">Tester</option>
-                      <option value="4">Scrum Master</option>
-                      <option value="5">Analista de Requisitos</option>
-                      <option value="6">Arquitetura</option>
-                      <option value="7">Infraestrutura</option>
+                      <option selected value="dev">Desenvolvimento</option>
+                      <option value="mngmnt">Manager</option>
+                      <option value="test">Tester</option>
+                      <option value="scrummaster">Scrum Master</option>
+                      <option value="reqanaly">Analista de Requisitos</option>
+                      <option value="arch">Arquitetura</option>
+                      <option value="infra">Infraestrutura</option>
                       </select>
                     </div>
 
@@ -135,71 +135,14 @@
 
   <!-- MAIN CONTAINER -->
   <div class="container mt-4">
-    <div class="row justify-content-center">
-      <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-        <!--CARD-->
-        <div class="card">
-          <img class="card-img-top" src="images/developer.png" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Desenvolvedor Front-end JR</h2>
-              <h5 class="card-title font-weight-bold small">Descrição</h3>
-                <p>Profissional que goste de trabalhar em um ambiente dinâmico com desenvolvimento de software e que tenha experiência
-                  em desenvolvimento full stack.</p>
-                <h5 class="card-title font-weight-bold small">Salário base</h3>
-                  <p>R$ 10,00</p>
+    <div class="row justify-content-center" id="openedVacs">
+      
 
-                  <button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>
-                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+      <!-- CONTENT INSERTED VIA JAVASCRIPT -->
 
-          </div>
-        </div>
-      </div>
 
-      <div class="col-sm-12 col-md-6 col-lg-4">
-        <!--CARD-->
-        <div class="card">
-          <img class="card-img-top" src="images/designer.png" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Designer UI/UX PL</h2>
-              <h5 class="card-title font-weight-bold small">Descrição</h3>
-                <p>Profissional que goste de trabalhar em um ambiente dinâmico com desenvolvimento de software e que tenha experiência
-                  em desenvolvimento full stack.</p>
-                <h5 class="card-title font-weight-bold small">Salário base</h3>
-                  <p>R$ 100,00</p>
-
-                  <button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>
-                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-
-          </div>
-        </div>
-
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-4">
-        <!--CARD-->
-        <div class="card">
-          <img class="card-img-top" src="images/tester.png" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Tester - Estágio</h2>
-              <h5 class="card-title font-weight-bold small">Descrição</h3>
-                <p>Profissional que goste de trabalhar em um ambiente dinâmico com desenvolvimento de software e que tenha experiência
-                  em desenvolvimento full stack.</p>
-                <h5 class="card-title font-weight-bold small">Salário base</h3>
-                  <p>R$ 2,00</p>
-
-                  <button type="button" class="btn btn-warning"><i class="far fa-edit"></i></button>
-                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
-
-
-
-
-
 
 
 
@@ -211,6 +154,13 @@
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
     crossorigin="anonymous"></script>
+
+  <!-- Personal JavaScript code -->
+
+  <script src="js/vacancy.js"></script>
+
+
+
 </body>
 
 </html>
