@@ -108,6 +108,46 @@ app.put('/vaga',
     }
 })
 
+
+//Alterar registro - PUT
+app.put('/vaga/:id', 
+[
+    check('name').exists().matches('[\wÀ-ú\s_\.-]*'),
+    check('description').exists(),
+    check('skills').exists(),
+    check('salary').isDecimal(),
+    check('area').exists(),
+    check('differentials').exists(),
+    check('isPcd').isBoolean(),
+    check('isActive').isBoolean(),
+    check('id').isInt().custom(
+        (value) => {
+        if(findVagaById(vagas, value) == undefined){
+            throw new Error('Register does not exists');
+        }
+        return true;
+      })
+] 
+,async (req, res) =>{
+    try{
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        
+        let index = await findVagaIndexById(vagas, req.params.id);
+        if(index >= 0){
+            Object.keys(req.body).forEach(vaga => {
+                vagas[index][vaga] = req.body[vaga];
+            })
+            return res.send('Updated');
+        }
+        return res.send('No register with this id');
+    }catch(error){
+        return res.status(500).send('Internal error');
+    }
+})
+
 //GET POR ID
 app.get('/vagas/:id' , async (req, res) => {
     try{

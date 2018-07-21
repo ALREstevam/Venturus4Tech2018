@@ -1,0 +1,29 @@
+function Card(props){
+  return(
+      <div className="card">
+        <img className="card-img-top" src={props.imgSrc} alt="" style={{width: '350px'}}/>
+        <div className="card-body">
+          <h2 className="card-title">{props.title}</h2>
+          <h3 className="card-title font-weight-bold small">Descrição</h3>
+          <p>{props.description}</p>
+          <h3 className="card-title font-weight-bold small">Salário base</h3>
+          <p>R$ {props.baseSalary}</p>
+          <button type="button" className="btn btn-warning mx-1"><i class="far fa-edit"></i></button>
+          <button type="button" className="btn btn-danger mx-1"><i class="far fa-trash-alt"></i></button>
+        </div>   
+     </div>
+  )
+}
+      
+const app =(
+  <div>
+    
+    <Card imgSrc="http://afrisoft.co.ke/wp-content/uploads/2017/11/google-1.jpg" title="Programador na linguagem K" description="lorem ipsum lorem ipsum lorem ipsum" baseSalary="100,23"></Card>
+    
+  </div>
+)
+
+ReactDOM.render(
+  (app),
+  document.querySelector("#app")
+);
