@@ -8,12 +8,11 @@
 module.exports = app => {
     let Job = require('../../../model/Job');
     //Referenciando a collection no firebase
-    const jobsCollection = app.config.firebaseConfig.collection('jobs'); 
+    const jobsCollection = app.config.firebaseConfig.collection('jobs');
 
-
-    //SELECT ALL REGISTERS ENDPOINT
+    //SELECT ALL REGISTERS ENDPOINT - [CONNECTED TO FIREBASE]
     app.get('/jobs', async (req, res) => {
-        try{
+        try {
             const docs = await jobsCollection.get();
             let jobs = [];
 
@@ -21,24 +20,39 @@ module.exports = app => {
                 jobs.push(Job.extractJob(doc));
             });
             return res.send(jobs);
-        }catch(error){
+        } catch (error) {
             console.log(error);
             return res.status(500).send(`Um erro ocorreu: ${error}`);
         }
     })
 
-    //SELECTION BY ID ENDPOINT
+    //SELECTION BY ID ENDPOINT - [CONNECTED TO FIREBASE]
     app.get('/jobs/:id', async (req, res) => {
-        return res.send(jobs.find(el => el.id === req.params.id));
+        const jobFromDb = jobsCollection.doc(req.params.id);
+
+        var getDoc = jobFromDb.get()
+            .then(doc => {
+                if (!doc.exists) {
+                    console.log(`No such document ${req.params.id}`);
+                    return res.status(500).send(`O documento  '${req.params.id}' não existe`);
+                } else {
+                    return res.send(Job.extractJob(doc));
+                }
+            })
+            .catch(error => {
+                console.log('Error getting document', error);
+                return res.status(500).send(`Um erro ocorreu: ${error}`);
+            });
+
     })
 
-    //ADDITION ENDPOINT
+    //ADDITION ENDPOINT - [CONNECTED TO FIREBASE]
     app.post('/jobs', async (req, res) => {
         try {
             const fbReturn = await jobsCollection.doc().set(req.body);
-            if(fbReturn){
+            if (fbReturn) {
                 return res.send('Adicionado com sucesso');
-            }else{
+            } else {
                 throw Error;
             }
         } catch (error) {
@@ -47,35 +61,51 @@ module.exports = app => {
         }
     })
 
-    //UPDATE BY ID ENDPOINT
+    //UPDATE BY ID ENDPOINT - [CONNECTED TO FIREBASE]
     app.put('/jobs/:id', async (req, res) => {
         try {
+
             if (!req.body) {
                 return res.status(403).send('Para alterar um usuário, é necessário passar algum valor');
             }
-            let index = await jobs.findIndex(job => job.id === req.params.id);
-            if (index >= 0) {
-                Object.keys(req.body).forEach(job => {
-                    jobs[index][job] = req.body[job]
-                })
-                return res.send(`Vaga com o id ${req.params.id} foi alterada com sucesso`);
+            let fbReturn = await jobsCollection.doc(req.params.id).set(req.body);
+            if (fbReturn) {
+                return res.send('Atualizado com sucesso');
+            } else {
+                throw Error;
             }
-            return res.send("nao foi encontrado vaga com esse id");
+
+
         } catch (error) {
             return res.status(500).send(`Um erro ocorreu ${error}`);
         }
     })
 
 
-    //DELETE BY ID ENDPOINT
-    app.delete('/jobs/:id', (req, res) => {
+    // {
+    //     firebase.database().ref('users/' + userId).set({
+    //         username: name,
+    //         email: email,
+    //         profile_picture : imageUrl
+    //       });
+    // }
+
+    //DELETE BY ID ENDPOINT [CONNECTED TO FIREBASE]
+    app.delete('/jobs/:id', async (req, res) => {
         try {
-            let length = jobs.length;
-            jobs.splice(jobs.findIndex(el => el.id === req.params.id), 1);
-            if (jobs.length < length) return res.send(`A vaga com o id ${req.params.id} foi deletada com successo`);
-            else return res.status(500).send(`Não foi possível deletar a vaga ${req.params.id}`);
+            let deleteDoc = await app.config.firebaseConfig
+                .collection('jobs')
+                .doc(req.params.id)
+                .delete();
+
+            if (deleteDoc) {
+                return res.send("Deletado com sucesso")
+            } else {
+                throw Error;
+            }
+
         } catch (error) {
-            return res.status(500).send(error);
+            return res.status(500).send(`Um erro ocorreu : ${error}`);
         }
     })
 }
