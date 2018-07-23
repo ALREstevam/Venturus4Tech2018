@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import CardCol from '../JobCard/JobCardCol'
+//import CardCol from '../JobCard/JobCardCol'
+import CardCol from '../JobCard/JobCardColStateFull'
 import VagasMockDb from '../../../assets/mockdb/vagas' 
+
+const componentName = "JobList"
 
 class JobList extends Component { //ou React.Component se não quiser colocar no import
     state = {
@@ -11,13 +14,38 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
     
     constructor() {
         super(); //Chamada ao construtor da classe pai (React.Component)
+        console.log(`[${componentName}] - [constructor] called`);
+
 
         //this.state = vagas -> não faça isso para alterar o state isso sobrescreve o objeto todo, queremos fazer um merge
     }
 
     componentDidMount(){//Assim que o componente for montado => só posso alterar o state depois disso
+        console.log(`[${componentName}] - [componentDidMount] called`);
         this.setState( {jobs : VagasMockDb}  ); //fará um "merge" com o estado atual
     }
+
+    componentWillReceiveProps(){
+        console.log(`[${componentName}] - [componentWillReceiveProps] called`);
+    }
+
+    shouldComponentUpdate(){
+        console.log(`[${componentName}] - [shouldComponentUpdate] called -> returning true`);
+        return true;
+    }
+
+    componentWillUpdate(){
+        console.log(`[${componentName}] - [componentWillUpdate] called`);
+    }
+
+    componentWillMount(){
+        console.log(`[${componentName}] - [componentWillMount] called`);
+    }
+
+    componentWillUnmount(){
+        console.log(`[${componentName}] - [componentWillUnmount] called`);
+    }
+
 
 
 
@@ -40,7 +68,7 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
     
 
     render() { //deve retornar o que quero renderizar no componente]
-
+        console.log(`[${componentName}] - [render] called`);
 
         let foundedJobs = this.state.jobs.map(
             currentJob => {

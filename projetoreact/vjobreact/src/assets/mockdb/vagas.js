@@ -46,7 +46,7 @@ module.exports = [
     },
     {
         "id": "0654",
-        "name": "Estagiário de Data Science",
+        "name": "Estagiário de Data Science 1",
         "salary": 1200,
         "area": "Design",
         "description": "Suas responsabilidades serão voltadas para o desenvolvimento de modelos de previsão, reconhecimento de padrão e análise de dados para tomada de decisão. O estagiário atuará com técnicas de Machine Learning, Big Data, Data Science e Data Analytics.",
@@ -65,7 +65,7 @@ module.exports = [
     },
     {
         "id": "0655",
-        "name": "Estagiário de Data Science",
+        "name": "Estagiário de Data Science 2",
         "salary": 1200,
         "area": "Design",
         "image": "https://cdn-images-1.medium.com/max/1600/1*u16a0WbJeckSdi6kGD3gVA.jpeg",
@@ -85,7 +85,7 @@ module.exports = [
     },
     {
         "id": "0656",
-        "name": "Estagiário de Data Science",
+        "name": "Estagiário de Data Science 3",
         "salary": 1200,
         "area": "Outra",
         "description": "Suas responsabilidades serão voltadas para o desenvolvimento de modelos de previsão, reconhecimento de padrão e análise de dados para tomada de decisão. O estagiário atuará com técnicas de Machine Learning, Big Data, Data Science e Data Analytics.",
