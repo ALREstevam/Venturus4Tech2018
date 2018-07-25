@@ -1,7 +1,15 @@
-import React, {Component} from 'react';
-//import CardCol from '../JobCard/JobCardCol'
-import CardCol from '../JobCard/JobCardColStateFull'
-import VagasMockDb from '../../../assets/mockdb/vagas' 
+//ReactDOM.findDOMNode
+import React, {Component, ReactDOM} from 'react';
+import CardCol from '../JobCard/JobCardCol';
+import DefaultModal from '../../navigation/DefaultModal/DefaultModal';
+import JobForm from '../../../components/job/AddJobForm/AddJobForm';
+import Collapse from '../../../components/hoc/Collapse/Collapse';
+import Alert from '../../../components/navigation/Alert/Alert'
+
+// import CardCol from '../JobCard/JobCardColStateFull'; import VagasMockDb from
+// '../../../assets/mockdb/vagas';
+import Loading from '../../navigation/Loading/Loading';
+import Axios from 'axios';
 
 const componentName = "JobList"
 
@@ -10,161 +18,194 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
         jobs: [],
         selectedId: null,
         hasError: false,
+        alertHtml : undefined,
+        isCollapseOpened : false,
     }
-    
+
     constructor() {
         super(); //Chamada ao construtor da classe pai (React.Component)
         console.log(`[${componentName}] - [constructor] called`);
-
-
-        //this.state = vagas -> não faça isso para alterar o state isso sobrescreve o objeto todo, queremos fazer um merge
+        // this.state = vagas -> não faça isso para alterar o state isso sobrescreve o
+        // objeto todo, queremos fazer um merge
     }
 
-    componentDidMount(){//Assim que o componente for montado => só posso alterar o state depois disso
+    addItemToList = (newItem) => {
+        let currentJobs = this.state.jobs;
+        //currentJobs.push(newItem);
+        currentJobs.unshift(newItem);
+        this.setState({jobs : currentJobs});
+    }
+
+    componentDidMount() { //Assim que o componente for montado => só posso alterar o state depois disso
         console.log(`[${componentName}] - [componentDidMount] called`);
-        this.setState( {jobs : VagasMockDb}  ); //fará um "merge" com o estado atual
+        //this.setState({jobs: VagasMockDb}); //fará um "merge" com o estado atual
+        Axios
+            .get('/jobs')
+            .then((response) => {
+                //debugger; // debuga no browser
+                this.setState({jobs: response.data});
+            })
+            .catch((error) => {
+                console.error(`Um erro ocorreu ao fazer GET : ${error}`)
+
+                this.setState({alertHtml : <Alert
+                    type = "danger"
+                    title = "Erro"
+                    message = {<strong>Um erro ocorreu ao carregar as vagas.</strong>}
+                    secondaryMessage = {`Erro: ${error}`}
+                    hasDismiss = {true}
+                    >
+                </Alert>})
+            })
     }
 
-    componentWillReceiveProps(){
+    componentWillReceiveProps() {
         console.log(`[${componentName}] - [componentWillReceiveProps] called`);
     }
 
-    shouldComponentUpdate(){
+    shouldComponentUpdate() {
         console.log(`[${componentName}] - [shouldComponentUpdate] called -> returning true`);
         return true;
     }
 
-    componentWillUpdate(){
+    componentWillUpdate() {
         console.log(`[${componentName}] - [componentWillUpdate] called`);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         console.log(`[${componentName}] - [componentWillMount] called`);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log(`[${componentName}] - [componentWillUnmount] called`);
     }
 
+    componentDidUpdate() {
+        console.log(`[${componentName}] - [componentDidUpdate] called`);
+    }
 
+    jobRemoveHandler = (id, name) => {
+        //Terminar com "Handler" em métodos que manipulam eventos
+        Axios
+            .delete(`/jobs/${id}`)
+            .then((response) => {
+                let jobsUpdated = this.state.jobs;
+                const removedIndex = jobsUpdated.findIndex(item => item.id == id);
 
+                jobsUpdated.splice(removedIndex, 1);
+                this.setState({jobs: jobsUpdated})
 
-    jobRemoveHandler = (id, name) => { //Terminar com "Handler" em métodos que manipulam eventos
-        if(window.confirm(`Deseja realmente excluir a vaga '${name}'`)){
-            window.alert('Exluído com sucesso');
-        }else{
-            window.alert('Erro ao construir');
-        }
+                this.setState({alertHtml : <Alert
+                    type = "success"
+                    title = "Sucesso"
+                    message = {<strong>A vaga "{name}" foi removida com sucesso.</strong>}
+                    hasDismiss = {true}
+                    >
+                </Alert>})
 
-        console.log(`Deleting register with id ${id}`);
-        //TODO: remove item with `id`
+            })
+            .catch((error) => {
+                console.error(`Um erro ocorreu ao fazer DELETE : ${error}`)
+                
+                this.setState({alertHtml : <Alert
+                    type = "danger"
+                    title = "Erro"
+                    message = {<strong>Um erro ocorreu ao remover a vaga "{name}".</strong>}
+                    secondaryMessage = {`Erro: ${error}`}
+                    hasDismiss = {true}
+                    >
+                </Alert>})
+            })
     }
 
     jobEditHandler = (id, name) => {
         window.alert(`A vaga '${name}' foi editada com sucesso`);
-        //TODO: edit...,
         console.log(`Editing register with id ${id}`);
+
+        this.setState({alertHtml : <Alert
+            type = "success"
+            title = "Sucesso"
+            message = {<strong>A vaga "{name}" foi alterada com sucesso.</strong>}
+            hasDismiss = {true}
+            >
+        </Alert>})
     }
-    
+
+    getJobCards() {
+        const htmlGerado = this
+            .state
+            .jobs
+            .map(currentJob => ((<CardCol
+                key={currentJob.id}
+                imgSrc={currentJob.image}
+                area={currentJob.area}
+                name={currentJob.name}
+                description={currentJob.description}
+                salary={currentJob.salary}
+                id={currentJob.id}
+                name={currentJob.name}
+                removeHandler=
+                {() => this.jobRemoveHandler(currentJob.id, currentJob.name)}
+                editHandler=
+                {() => this.jobEditHandler(currentJob.id, currentJob.name)}/>)));
+
+        return htmlGerado;
+    }
+
+    collapseClicked(reference){
+        //isCollapseOpend
+        const newState = !reference.state.isCollapseOpened;
+        reference.setState({isCollapseOpened : newState});
+        
+    }
 
     render() { //deve retornar o que quero renderizar no componente]
         console.log(`[${componentName}] - [render] called`);
 
-        let foundedJobs = this.state.jobs.map(
-            currentJob => {
-                return(
-                    <CardCol
-                        key={currentJob.id}
-                        imgSrc={currentJob.image}
-                        area={currentJob.area}
-                        title={currentJob.name}
-                        description={currentJob.description}
-                        baseSalary={currentJob.salary}
-                        removeHandler=
-                        {() => this.jobRemoveHandler(currentJob.id, currentJob.name)}
-                        editHandler=
-                        {() => this.jobEditHandler(currentJob.id, currentJob.name)}
-                    />
-                )
-            }
-        )
+        let htmlGerado = (this.state.jobs !== undefined && this.state.jobs.length > 0)
+            ? this.getJobCards()
+            : <Loading/>
+
+
+        let collapse = 
+            <Collapse
+                    reference = {this}
+                    buttonName={<span><i class="fas fa-plus-circle"></i> Criar nova vaga</span> }
+                    collapseId="addJobCollapse"
+                    buttonClass="btn-primary"
+                    onClickHandler = {this.collapseClicked}
+                    >
+                    <JobForm addToListFunction = {this.addItemToList}/>
+                </Collapse>
+
+        if(this.state.isCollapseOpened){
+            collapse = <Collapse
+                reference = {this}
+                buttonName={<span><i class="fas fa-ban"></i> Cancelar adição</span>}
+                collapseId="addJobCollapse"
+                buttonClass="btn-danger"
+                onClickHandler = {this.collapseClicked}
+                >
+                <JobForm addToListFunction = {this.addItemToList}/>
+            </Collapse>
+        }
+
 
         return (
-            <div className="container mt-4">
-                <div className="row justify-content-center">
-                    {foundedJobs}
+            <div>
+                
+                {collapse}
+
+                <div className="container mt-4">
+                    <p>Vagas listadas: <strong>{this.state.jobs.length}</strong></p>
+                    {this.state.alertHtml}
+                    <div className="row justify-content-center">
+                        {htmlGerado}
+                        
+                    </div>
                 </div>
             </div>
         )
-
-
-        /*return (
-            <div className="container mt-4">
-                <div className="row justify-content-center">
-
-                    <CardCol
-                        imgSrc="developer"
-                        title="Programador na linguagem K"
-                        description="lorem ipsum lorem ipsum lorem ipsum"
-                        baseSalary="100,23"
-                        removeHandler=
-                        {() => this.jobRemoveHandler(1, "Programador na linguagem K")}
-                        editHandler=
-                        {() => this.jobEditHandler(1, "Programador na linguagem K")}/>
-
-                    <CardCol
-                        imgSrc="designer"
-                        title="Programador na linguagem L"
-                        description="lorem ipsum lorem ipsum lorem ipsum"
-                        baseSalary="100,23"
-                        removeHandler=
-                        {() => this.jobRemoveHandler(2, "Programador na linguagem L")}
-                        editHandler=
-                        {() => this.jobEditHandler(2, "Programador na linguagem L")}/>
-
-                    <CardCol
-                        imgSrc="tester"
-                        title="Programador na linguagem M"
-                        description="lorem ipsum lorem ipsum lorem ipsum"
-                        baseSalary="100,23"
-                        removeHandler=
-                        {() => this.jobRemoveHandler(3, "Programador na linguagem M")}
-                        editHandler=
-                        {() => this.jobEditHandler(2, "Programador na linguagem M")}/>
-
-                    <CardCol
-                        imgSrc="http://afrisoft.co.ke/wp-content/uploads/2017/11/google-1.jpg"
-                        title="Programador na linguagem N"
-                        description="lorem ipsum lorem ipsum lorem ipsum"
-                        baseSalary="100,23"
-                        removeHandler=
-                        {() => this.jobRemoveHandler(4, "Programador na linguagem N")}
-                        editHandler=
-                        {() => this.jobEditHandler(4, "Programador na linguagem N")}/>
-
-                    <CardCol
-                        imgSrc="http://afrisoft.co.ke/wp-content/uploads/2017/11/google-1.jpg"
-                        title="Programador na linguagem O"
-                        description="lorem ipsum lorem ipsum lorem ipsum"
-                        baseSalary="100,23"
-                        removeHandler=
-                        {() => this.jobRemoveHandler(5, "Programador na linguagem O")}
-                        editHandler=
-                        {() => this.jobEditHandler(5, "Programador na linguagem O")}/>
-
-                    <CardCol
-                        imgSrc="http://afrisoft.co.ke/wp-content/uploads/2017/11/google-1.jpg"
-                        title="Programador na linguagem P"
-                        description="lorem ipsum lorem ipsum lorem ipsum"
-                        baseSalary="100,23"
-                        removeHandler=
-                        {() => this.jobRemoveHandler(6, "Programador na linguagem P")}
-                        editHandler=
-                        {() => this.jobEditHandler(6, "Programador na linguagem P")}/>
-
-                </div>
-            </div>
-        )*/
     }
 }
 

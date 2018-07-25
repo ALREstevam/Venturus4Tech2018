@@ -1,9 +1,10 @@
 import React from 'react';
 import SiteLogo from '../../../assets/images/logo-h-vjobs.png'
+import {Link} from 'react-router-dom'
 
 const header = () => (
     <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
             <img
                 className="logo"
                 src={SiteLogo}
@@ -11,7 +12,7 @@ const header = () => (
                 style={{
                 width: '100px'
             }}/>
-        </a>
+        </Link>
 
         <button
             className="navbar-toggler"
@@ -27,10 +28,12 @@ const header = () => (
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                    <a className="nav-link text-white" href="#">Vagas</a>
+                    <Link className="nav-link text-white" 
+                    to="/vagas">Vagas</Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link text-white" href="#">Sobre</a>
+                    <Link className="nav-link text-white" 
+                    to="/sobre">Sobre</Link>
                 </li>
             </ul>
         </div>

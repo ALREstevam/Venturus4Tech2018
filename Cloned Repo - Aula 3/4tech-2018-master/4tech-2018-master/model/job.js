@@ -27,6 +27,8 @@ const createJob = (obj) => new Job(
 );
 
 
+
+
 const extractJob = (job) => {
     let v = job.data();
     return {
@@ -36,7 +38,9 @@ const extractJob = (job) => {
         skills: v.skills,
         differentials: v.differentials,
         isPcd: v.isPcd,
-        isActive: v.isActive
+        isActive: v.isActive,
+        area: v.area,
+        salary : v.salary,
     }
 }
 
