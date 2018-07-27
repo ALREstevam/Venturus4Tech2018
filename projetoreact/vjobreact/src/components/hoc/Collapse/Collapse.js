@@ -1,5 +1,5 @@
 import React from 'react'
-import CollapseFormButton from '../../job/AddJobForm/CollapseJobFormButton'
+import CollapseFormButton from '../../job/JobForm/CollapseJobFormButton'
 /*
 Higher-Order Component
 

@@ -1,5 +1,7 @@
 'use strict';
 
+const auth = require('../../../config/security/tokenValidator');
+
 //let jobs = require('../../../config/jobs-mockdb');
 
 module.exports = app => {
@@ -55,7 +57,7 @@ module.exports = app => {
 
     /* ADD JOB */
     //ADDITION ENDPOINT - [CONNECTED TO FIREBASE]
-    app.post('/jobs2', async (req, res) => {
+    app.post('/jobs2', auth ,async (req, res, next) => {
         try {
             console.log('Endpoint [POST /jobs] called');
             const receivedJob = req.body;
@@ -85,7 +87,7 @@ module.exports = app => {
 
     /* UPDATE JOB BY ID */
     //UPDATE BY ID ENDPOINT - [CONNECTED TO FIREBASE]
-    app.post('/jobs', async (req, res) => {
+    app.post('/jobs', auth, async (req, res, next) => {
         jobsCollection.add(req.body)
         .then(
             ref => {
@@ -99,7 +101,7 @@ module.exports = app => {
 
     /* UPDATE JOB BY ID */
     //UPDATE BY ID ENDPOINT - [CONNECTED TO FIREBASE]
-    app.put('/jobs/:id', async (req, res) => {
+    app.put('/jobs/:id', auth, async (req, res, next) => {
         try {
             console.log('Endpoint [PUT /jobs/:id] called');
             if (!req.body) {
@@ -121,7 +123,7 @@ module.exports = app => {
 
     /* DELETE JOB BY ID */
     //DELETE BY ID ENDPOINT [CONNECTED TO FIREBASE]
-    app.delete('/jobs2/:id', async (req, res) => {
+    app.delete('/jobs2/:id', auth,  async (req, res, next) => {
         try {
             console.log(`Endpoint [DELETE /jobs/:id] called for id : ${req.params.id}`);
             let deleteDoc = await jobsCollection
@@ -140,7 +142,7 @@ module.exports = app => {
     })
 
 
-    app.delete('/jobs/:id', async (req, res) => {
+    app.delete('/jobs/:id', auth, async (req, res, next) => {
         try {
             console.log(`Endpoint [DELETE /jobs/:id] called for id : ${req.params.id}`);
             const deletedJob = await jobsCollection.doc(req.params.id).delete();

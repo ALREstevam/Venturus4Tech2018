@@ -6,6 +6,9 @@ import {Link} from 'react-router-dom';
 import imgDeveloper from '../../../assets/images/developer.png';
 import imgDesigner from '../../../assets/images/designer.png';
 import imgTester from '../../../assets/images/tester.png';
+import imgFrontEnd from '../../../assets/images/frontend.jpg';
+import imgBackEnd from '../../../assets/images/backend.jpg';
+import imgFullStack from '../../../assets/images/fullstack.png';
 import imgGeneral from '../../../assets/images/generalImage.jpg';
 
 const generateNewModalId = () => {
@@ -25,7 +28,16 @@ const card = (props) => {
         "DESIGN": imgDesigner,
         "TESTER": imgTester,
         "TESTE": imgTester,
-        "TESTES": imgTester
+        "TESTES": imgTester,
+        "FRONTEND" : imgFrontEnd,
+        "FRONT-END" : imgFrontEnd,
+        "FRONT" : imgFrontEnd,
+        "BACKEND" : imgBackEnd,
+        "BACK-END" : imgBackEnd,
+        "BACK" : imgBackEnd,
+        "FULLSTACK" : imgFullStack,
+        "FULL-STACK" : imgFullStack,
+        "FULL" : imgFullStack,
     }
 
     let img = imgGeneral;
@@ -68,6 +80,10 @@ const card = (props) => {
                     : "Não"}</p>
         </div>
 
+        additional.id = <div>
+            <p className='small text-secondary' style={{fontFamily: "Lucida Console"}}> <strong>FirebaseDocumentId:</strong> {props.id}  </p>
+        </div>
+
     }
 
     if(props.hasBackButton !== undefined && props.hasBackButton == true){
@@ -87,6 +103,7 @@ const card = (props) => {
         <div className="card">
             <img className="card-img-top" src={img} alt=""/>
             <div className="card-body">
+                {additional['id']}
 
                 <h2 className="card-title">{props.name}</h2>
                 <h3 className="card-title font-weight-bold small">Descrição</h3>

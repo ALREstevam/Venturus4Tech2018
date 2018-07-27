@@ -2,7 +2,7 @@
 import React, {Component, ReactDOM} from 'react';
 import CardCol from '../JobCard/JobCardCol';
 import DefaultModal from '../../navigation/DefaultModal/DefaultModal';
-import JobForm from '../../../components/job/AddJobForm/AddJobForm';
+import JobForm from '../../../components/job/JobForm/JobForm';
 import Collapse from '../../../components/hoc/Collapse/Collapse';
 import Alert from '../../../components/navigation/Alert/Alert'
 
@@ -20,6 +20,7 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
         hasError: false,
         alertHtml : undefined,
         isCollapseOpened : false,
+        formMode: 'add',
     }
 
     constructor() {
@@ -29,11 +30,23 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
         // objeto todo, queremos fazer um merge
     }
 
-    addItemToList = (newItem) => {
+    addCallback = (newItem) => {
         let currentJobs = this.state.jobs;
         //currentJobs.push(newItem);
         currentJobs.unshift(newItem);
         this.setState({jobs : currentJobs});
+    }
+
+    updateCallback = (updatedItem) => {
+        let currentJobs = this.state.jobs;
+        const index = this.state.jobs.map(element => element.id).indexOf(updatedItem.id);
+
+        currentJobs[index] = updatedItem;
+
+        this.setState({jobs : currentJobs})
+
+        //findOldJob
+        //ReplaceWithNewJob
     }
 
     componentDidMount() { //Assim que o componente for montado => só posso alterar o state depois disso
@@ -86,8 +99,14 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
 
     jobRemoveHandler = (id, name) => {
         //Terminar com "Handler" em métodos que manipulam eventos
+        const axiosConfig ={
+            headers: {
+                'Authorization' : 'Bearer ' + window.localStorage.getItem('token')
+            }
+        }
+       
         Axios
-            .delete(`/jobs/${id}`)
+            .delete(`/jobs/${id}`, axiosConfig)
             .then((response) => {
                 let jobsUpdated = this.state.jobs;
                 const removedIndex = jobsUpdated.findIndex(item => item.id == id);
@@ -106,6 +125,11 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
             })
             .catch((error) => {
                 console.error(`Um erro ocorreu ao fazer DELETE : ${error}`)
+
+                if(error.response.status == 401){
+                    //unauthorized
+                }
+
                 
                 this.setState({alertHtml : <Alert
                     type = "danger"
@@ -119,16 +143,25 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
     }
 
     jobEditHandler = (id, name) => {
-        window.alert(`A vaga '${name}' foi editada com sucesso`);
         console.log(`Editing register with id ${id}`);
 
-        this.setState({alertHtml : <Alert
+        //Set to edit
+        
+        <JobForm 
+                        addCallback = {this.addCallback}
+                        updateCallback = {this.updateCallback}
+                        mode='edit'
+                        id={id}
+        />
+
+
+        /*this.setState({alertHtml : <Alert
             type = "success"
             title = "Sucesso"
             message = {<strong>A vaga "{name}" foi alterada com sucesso.</strong>}
             hasDismiss = {true}
             >
-        </Alert>})
+        </Alert>})*/
     }
 
     getJobCards() {
@@ -175,7 +208,10 @@ class JobList extends Component { //ou React.Component se não quiser colocar no
                     buttonClass="btn-primary"
                     onClickHandler = {this.collapseClicked}
                     >
-                    <JobForm addToListFunction = {this.addItemToList}/>
+                    <JobForm 
+                        addCallback = {this.addCallback}
+                        updateCallback = {this.updateCallback}
+                    />
                 </Collapse>
 
         if(this.state.isCollapseOpened){
